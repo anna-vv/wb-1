@@ -1,0 +1,711 @@
+@import url("https://fonts.googleapis.com/css?family=Michroma");
+
+// variables
+
+$bgColor: #000000;
+$textColor: #d7d7d7;
+$brickRed: #a23529;
+
+// mixins
+
+@mixin contact-form {
+  width: 60%;
+  display: block;
+  background: $bgColor;
+  border: 2px solid $textColor;
+  color: $textColor;
+  font-family: Michroma;
+  font-size: 0.7rem;
+  padding: 0 0.5rem;
+  margin: 0 auto;
+}
+
+@mixin sub-form {
+  background-color: $bgColor;
+  color: $textColor;
+  border: 1px solid $bgColor;
+  letter-spacing: 0.1rem;
+  font-family: Michroma;
+}
+
+@mixin transition($transition...) {
+  -moz-transition: $transition;
+  -o-transition: $transition;
+  -webkit-transition: $transition;
+  transition: $transition;
+}
+
+@mixin transform($transforms) {
+  -moz-transform: $transforms;
+  -o-transform: $transforms;
+  -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+  transform: $transforms;
+}
+
+@mixin rotate($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+
+@mixin translate($x, $y) {
+  @include transform(translate($x, $y));
+}
+
+// reset
+
+* {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+// general
+
+body {
+  background-color: $bgColor;
+  color: $textColor;
+  font-family: Michroma;
+}
+h2 {
+  text-transform: lowercase;
+  letter-spacing: 0.3rem;
+  text-align: center;
+  font-size: 2.5rem;
+  &::before {
+    content: "//";
+    margin-right: 1rem;
+  }
+  &::after {
+    content: "\\\\";
+    margin-left: 1rem;
+  }
+}
+
+// header
+
+header {
+  .logo {
+    text-align: center;
+  }
+  img {
+    width: 100px;
+    display: inline-block;
+  }
+  nav {
+    background-color: $bgColor;
+  }
+  ul {
+    text-align: center;
+    padding-bottom: 1rem;
+  }
+  li {
+    display: inline-block;
+    text-align: center;
+    &::after {
+      content: "//";
+      margin: 0 1rem;
+    }
+    &:last-child::after {
+      content: "";
+      display: none;
+    }
+  }
+  li a {
+    text-decoration: none;
+    text-transform: lowercase;
+    color: $textColor;
+    letter-spacing: 0.2rem;
+    font-size: 0.9rem;
+    &:hover {
+      color: $brickRed;
+      @include transition(ease-in-out 400ms);
+    }
+    .active {
+      color: $brickRed;
+    }
+  }
+  #menu {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0.5rem;
+    z-index: 15;
+    display: none;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .open #hamburger {
+    @include rotate(45);
+  }
+  .open #hamburger::before {
+    opacity: 0;
+  }
+  .open #hamburger::after {
+    -webkit-transform: rotate(-90deg) translate(0.6rem);
+    -ms-transform: rotate(-90deg) translate(0.6rem);
+    transform: rotate(-90deg) translate(0.6rem);
+  }
+  #hamburger,
+  #hamburger::before,
+  #hamburger::after {
+    content: "";
+    display: block;
+    background-color: $textColor;
+    width: 1.7rem;
+    height: 2px;
+    margin: 0.5rem auto;
+  }
+  #hamburger::before {
+    @include translate(0, -0.6rem);
+  }
+}
+
+@media (max-width: 550px) {
+  .logo {
+    position: relative;
+  }
+  nav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 10;
+    display: none;
+    li {
+      display: block;
+      margin: 2rem;
+      &::after {
+        display: none;
+      }
+      a {
+        font-size: 1.5rem;
+      }
+    }
+  }
+  #header #menu {
+    display: block;
+  }
+  .opened {
+    display: block;
+  }
+}
+
+// footer
+
+footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  #copyright {
+    padding: 1rem;
+    text-transform: lowercase;
+    font-size: 0.6rem;
+  }
+  #sm ul {
+    list-style: none;
+    padding: 1rem;
+    li {
+      display: inline;
+    }
+    i {
+      padding: 0 1rem;
+      font-size: 1rem;
+    }
+    a {
+      color: $textColor;
+      text-decoration: none;
+      &:hover {
+        color: $brickRed;
+        @include transition(ease-in-out 400ms);
+      }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  footer #sm ul i {
+    padding: 0 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+// main content
+
+#slideshow {
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+  #slider {
+    width: 600%;
+    height: 100%;
+    -webkit-animation: 20s slider infinite;
+    animation: 20s slider infinite;
+    @include transform(0.5s ease-in);
+    #images {
+      height: 100%;
+    }
+    .image {
+      float: left;
+      height: 100%;
+      background-position: center;
+      background-size: cover;
+      &:nth-child(1) {
+        background-image: url("../img/1.jpg");
+      }
+      &:nth-child(2) {
+        background-image: url("../img/2.jpg");
+      }
+      &:nth-child(3) {
+        background-image: url("../img/3.jpg");
+      }
+      &:nth-child(4) {
+        background-image: url("../img/4.jpg");
+      }
+      &:nth-child(5) {
+        background-image: url("../img/5.jpg");
+      }
+      &:nth-child(6) {
+        background-image: url("../img/1.jpg");
+      }
+    }
+  }
+}
+
+@-webkit-keyframes slider {
+  0% {
+    -webkit-transform: translateX(0%);
+  }
+  17% {
+    -webkit-transform: translateX(0%);
+  }
+  20% {
+    -webkit-transform: translateX(-16.66667%);
+  }
+  37% {
+    -webkit-transform: translateX(-16.66667%);
+  }
+  40% {
+    -webkit-transform: translateX(-33.33333%);
+  }
+  57% {
+    -webkit-transform: translateX(-33.33333%);
+  }
+  60% {
+    -webkit-transform: translateX(-50%);
+  }
+  77% {
+    -webkit-transform: translateX(-50%);
+  }
+  80% {
+    -webkit-transform: translateX(-66.66666%);
+  }
+  97% {
+    -webkit-transform: translateX(-66.66666%);
+  }
+  100% {
+    -webkit-transform: translateX(-83.33333%);
+  }
+}
+
+@keyframes slider {
+  0% {
+    transform: translateX(0%);
+  }
+  17% {
+    transform: translateX(0%);
+  }
+  20% {
+    transform: translateX(-16.66667%);
+  }
+  37% {
+    transform: translateX(-16.66667%);
+  }
+  40% {
+    transform: translateX(-33.33333%);
+  }
+  57% {
+    transform: translateX(-33.33333%);
+  }
+  60% {
+    transform: translateX(-50%);
+  }
+  77% {
+    transform: translateX(-50%);
+  }
+  80% {
+    transform: translateX(-66.66666%);
+  }
+  97% {
+    transform: translateX(-66.66666%);
+  }
+  100% {
+    transform: translateX(-83.33333%);
+  }
+}
+
+@media (max-width: 1450px) {
+  .image {
+    width: auto;
+    min-height: 100%;
+  }
+}
+
+// about content
+
+#about {
+  margin-top: 2rem;
+  #about-content {
+    p {
+      padding: 1rem 2rem;
+      text-align: center;
+      letter-spacing: 0.1rem;
+      line-height: 2rem;
+    }
+    .bg-image {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      background-position: center;
+      background-size: cover;
+      background-attachment: fixed;
+      &.one {
+        background-image: url("../img/3-1.jpg");
+      }
+      &.two {
+        background-image: url("../img/3-2.jpg");
+      }
+      &.three {
+        background-image: url("../img/3-3.jpg");
+      }
+    }
+  }
+}
+
+// contacts content
+
+#contacts {
+  background-image: url("../img/6.jpg");
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  margin: 1rem 0 auto;
+  padding: 1rem 0;
+  text-align: center;
+  label {
+    font-size: 0.7rem;
+    text-transform: lowercase;
+    display: block;
+    margin: 0.3rem 0;
+  }
+  form {
+    margin-top: 1rem;
+    input[type="text"],
+    input[type="email"] {
+      @include contact-form();
+      height: 1.5rem;
+    }
+    textarea {
+      @include contact-form();
+    }
+    button {
+      @include contact-form();
+      text-transform: lowercase;
+      margin-top: 0.7rem;
+      padding: 0.4rem;
+      width: 15%;
+      &:hover {
+        background-color: $textColor;
+        color: $bgColor;
+      }
+    }
+  }
+  #emailAt {
+    margin: 1rem 0;
+    a {
+      font-size: 1.3rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: $textColor;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  #contacts form button {
+    width: 20%;
+  }
+}
+
+@media (max-width: 400px) {
+  #contacts form button {
+    width: 30%;
+  }
+  #contacts #emailAt a {
+    font-size: 1rem;
+  }
+}
+
+// prices content
+
+#prices {
+  width: 100%;
+  position: relative;
+  margin: 1rem 0 auto;
+  text-align: center;
+  overflow: hidden;
+  video {
+    min-height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+  #bg-video-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: $bgColor;
+    opacity: 0.5;
+    z-index: 1;
+  }
+  #prices-content {
+    z-index: 2;
+    position: absolute;
+    padding: 1rem 0;
+    width: 100%;
+    top: 0;
+    left: 0;
+    h2 {
+      width: 100%;
+    }
+    #prices-table {
+      table {
+        background-color: $bgColor;
+        margin: 2rem auto;
+        border-collapse: collapse;
+        td {
+          border-top: 2px solid $textColor;
+          border-left: 2px solid $textColor;
+          padding: 1rem;
+        }
+        .size,
+        .sizeH {
+          border-left: none;
+        }
+        th {
+          border-left: 2px solid $textColor;
+          padding: 1rem;
+          background-color: darken($brickRed, 10%);
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  #prices video {
+    width: 100%;
+  }
+}
+
+@media (max-width: 650px) {
+  #prices table {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 450px) {
+  td,
+  th,
+  .size,
+  .sizeH {
+    padding: 0.5rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 400px) {
+  td,
+  th,
+  .size,
+  .sizeH {
+    padding: 0.2rem;
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 360px) {
+  td,
+  th,
+  .size,
+  .sizeH {
+    padding: 0.2rem;
+    font-size: 0.45rem;
+  }
+}
+
+// works content
+
+#works {
+  #works-content {
+    width: 100%;
+    margin-top: 2rem;
+  }
+  img {
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+  .image {
+    opacity: 0;
+  }
+  .showing {
+    opacity: 1;
+    @include transition(1s all ease-in-out);
+  }
+}
+
+// subcsription form
+
+#subscription {
+  position: fixed;
+  width: 30%;
+  background-color: $bgColor;
+  padding: 1rem;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 2px solid $textColor;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  -webkit-animation: 1s slideUp;
+  animation: 1s slideUp;
+  h4 {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.2rem;
+    margin-bottom: 0.4rem;
+    font-weight: normal;
+  }
+  span {
+    position: absolute;
+    right: 3%;
+    top: 3%;
+    font-size: 1.5rem;
+    &:hover {
+      cursor: pointer;
+      color: $brickRed;
+    }
+  }
+  #input {
+    &::before,
+    &::after {
+      font-size: 0.7rem;
+      color: $textColor;
+    }
+    &::before {
+      content: "//";
+    }
+    &::after {
+      content: "\\\\";
+    }
+  }
+  #subEmail {
+    @include sub-form();
+    text-align: center;
+    font-size: 0.65rem;
+    &:focus {
+      outline: none;
+    }
+    &::-webkit-input-placeholder {
+      color: $textColor;
+    }
+    &:-ms-input-placeholder {
+      color: $textColor;
+    }
+    &::-ms-input-placeholder {
+      color: $textColor;
+    }
+    &::placeholder {
+      color: $textColor;
+    }
+  }
+  button {
+    @include sub-form();
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-top: 0.7rem;
+    &:hover {
+      color: $brickRed;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  #subscription {
+    width: 40%;
+  }
+  h2 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  #subscription {
+    width: 50%;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  #about #about-content p {
+    padding: 1rem 2rem;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 1.5rem;
+  }
+  #about #about-content .bg-image {
+    height: 70vh;
+    background-attachment: scroll;
+  }
+}
+
+@media (max-width: 450px) {
+  #subscription {
+    width: 100%;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  footer #sm ul i {
+    padding: 0 0.3rem;
+    font-size: 0.7rem;
+  }
+}
+
+@-webkit-keyframes slideUp {
+  0% {
+    bottom: -100%;
+  }
+  100% {
+    bottom: 0;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    bottom: -100%;
+  }
+  100% {
+    bottom: 0;
+  }
+}
